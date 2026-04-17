@@ -1,0 +1,188 @@
+﻿@{
+    ViewData["Title"] = "Solicitudes de Ingreso";
+}
+
+@section Styles {
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/toast-style.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true">
+}
+
+<section class="content-header py-4">
+    <div class="container px-2 px-lg-3">
+        <div class="row align-items-center">
+            <div class="col-sm-6">
+                <h2 class="fw-bold ls-1">
+                    <i class="fa-solid fa-envelope-open-text text-peach me-2"></i> Solicitudes de Ingreso
+                </h2>
+                <h5 class="text-muted mb-0 ls-1">Gestiona a los artistas que desean unirse al lienzo.</h5>
+            </div>
+            <div class="col-sm-6">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb justify-content-sm-end bg-transparent p-0 m-0 align-items-center">
+                        <li class="breadcrumb-item fs-4">
+                            <a asp-controller="Home" asp-action="Index" class="text-decoration-none text-muted hover-peach">Inicio</a>
+                        </li>
+                        <li class="breadcrumb-item active fs-4 text-peach" aria-current="page">
+                            Solicitudes
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="content pb-5">
+    <div class="container px-2 px-lg-3">
+        <div class="card card-custom border-0 shadow-lg py-4">
+            <div class="card-body px-3 px-lg-3">
+                <div class="table-responsive overflow-hidden">
+                    <table id="tbl" class="table table-dark table-hover align-middle custom-aurora-table fs-6 w-100" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th class="text-peach py-3">No.</th>
+                                <th class="text-peach py-3">Nombres</th>
+                                <th class="text-peach py-3">Apellidos</th>
+                                <th class="text-peach py-3">Correo</th>
+                                <th class="text-peach py-3">Fecha de Solicitud</th>
+                                <th class="text-peach py-3">Estado</th>
+
+                                <th class="text-peach py-3">Aceptar solicitud</th>
+                                <th class="text-peach py-3">Rechazar solicitud</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int i = 1;
+                                // Iteramos sobre el modelo que pasaremos desde el controlador
+                                if (Model != null)
+                                {
+                                    foreach (var solicitud in Model)
+                                    {
+                                        <tr>
+                                            <td class="text-muted fw-bold py-3">@i</td>
+                                            <td class="py-3 text-white">@solicitud["nombres"]</td>
+                                            <td class="py-3 text-white">@solicitud["apellidos"]</td>
+                                            <td class="text-muted py-3">@solicitud["correo"]</td>
+                                            <td class="py-3">@Convert.ToDateTime(solicitud["fecha_solicitud"]).ToString("dd/MM/yyyy")</td>
+
+                                            <td class="py-3">
+                                                @if (solicitud["estado"].ToString() == "Pendiente")
+                                                {
+                                                    <span class="badge bg-warning bg-opacity-25 text-warning border border-warning fs-6 px-3 py-2">Pendiente</span>
+                                                }
+                                                else if (solicitud["estado"].ToString() == "Rechazado")
+                                                {
+                                                    <span class="badge bg-danger bg-opacity-25 text-danger border border-danger fs-6 px-3 py-2">Rechazado</span>
+                                                }
+                                            </td>
+
+                                            <td class="text-center px-1 py-3">
+                                                <button class="btn btn-sm btn-outline-success px-3" title="Aceptar Solicitud" data-bs-toggle="modal" data-bs-target="#aceptarSolicitudModal" onclick="$('#id_solicitud_a').val(@solicitud["id_solicitud"]); $('#nombres_a').val('@solicitud["nombres"]'); $('#apellidos_a').val('@solicitud["apellidos"]'); $('#correo_a').val('@solicitud["correo"]'); $('#nombre_solicitante_a').html('@solicitud["nombres"] @solicitud["apellidos"]');">
+                                                    <i class="fa-solid fa-check fw-bold"></i>
+                                                </button>
+                                            </td>
+                                            <td class="text-center px-1 py-3">
+                                                <button class="btn btn-sm btn-outline-danger px-3" title="Rechazar y Eliminar" data-bs-toggle="modal" data-bs-target="#rechazarSolicitudModal" onclick="$('#id_solicitud_r').val(@solicitud["id_solicitud"]); $('#nombre_solicitante_r').html('@solicitud["nombres"]');">
+                                                    <i class="fa-solid fa-xmark fw-bold"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        i++;
+                                    }
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="modal fade" id="aceptarSolicitudModal" tabindex="-1" aria-labelledby="aceptarLabel" aria-hidden="true" data-bs-theme="dark">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content card-custom border-1 border-secondary shadow-lg">
+
+            <form id="formAceptarSolicitud">
+                @Html.AntiForgeryToken()
+
+                <input id="id_solicitud_a" name="id_solicitud" type="hidden" />
+                <input id="nombres_a" name="nombres" type="hidden" />
+                <input id="apellidos_a" name="apellidos" type="hidden" />
+                <input id="correo_a" name="correo" type="hidden" />
+
+                <div class="modal-header border-bottom border-secondary">
+                    <h5 class="modal-title fw-bold text-success ls-1" id="aceptarLabel">
+                        <i class="fa-solid fa-check-circle me-2"></i> Aprobar Ingreso
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+
+                <div class="modal-body p-4 text-center">
+                    <div class="mb-4">
+                        <i class="fa-solid fa-envelope-circle-check text-success" style="font-size: 4rem; filter: drop-shadow(0 0 15px rgba(40, 167, 69, 0.4));"></i>
+                    </div>
+                    <h4 class="text-white mb-3">¿Aprobar nuevo artista?</h4>
+                    <p class="text-muted fs-6 mb-2">Se autogenerará la cuenta para:</p>
+                    <p class="fs-4 fw-bold text-peach mb-4" id="nombre_solicitante_a"></p>
+                    <p class="text-muted small mb-0">El sistema creará su nickname, contraseña y se los enviará por correo automáticamente.</p>
+                </div>
+
+                <div class="modal-footer border-top border-secondary justify-content-center gap-2 pb-4">
+                    <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-success rounded-pill px-4" style="box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);">
+                        <i class="fa-solid fa-check me-2"></i> Sí, Aprobar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="rechazarSolicitudModal" tabindex="-1" aria-labelledby="rechazarLabel" aria-hidden="true" data-bs-theme="dark">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content card-custom border-1 border-secondary shadow-lg">
+
+            <form id="formRechazar" method="post" asp-controller="Usuario" asp-action="RechazarSolicitud">
+                @Html.AntiForgeryToken()
+                <input id="id_solicitud_r" name="id_solicitud" type="hidden" />
+
+                <div class="modal-header border-bottom border-secondary">
+                    <h5 class="modal-title fw-bold text-danger ls-1" id="rechazarLabel">
+                        <i class="fa-solid fa-triangle-exclamation me-2"></i> Rechazar Solicitud
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+
+                <div class="modal-body p-4 text-center">
+                    <div class="mb-4">
+                        <i class="fa-solid fa-trash-can text-danger" style="font-size: 4rem; filter: drop-shadow(0 0 15px rgba(255, 76, 76, 0.4));"></i>
+                    </div>
+                    <h4 class="text-white mb-3">¿Rechazar y borrar?</h4>
+                    <p class="text-muted fs-6 mb-2">Se eliminará la solicitud de:</p>
+                    <p class="fs-4 fw-bold text-peach mb-4" id="nombre_solicitante_r"></p>
+                    <p class="text-muted small mb-0">Esta acción borrará el registro permanentemente.</p>
+                </div>
+
+                <div class="modal-footer border-top border-secondary justify-content-center gap-2 pb-4">
+                    <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-danger rounded-pill px-4" style="box-shadow: 0 4px 15px rgba(255, 76, 76, 0.3);">
+                        <i class="fa-solid fa-trash me-2"></i> Sí, rechazar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+    <script src="~/js/datatable-script.js" asp-append-version="true"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="~/js/toast-script.js"></script>
+    <script src="~/js/ajax-scripts.js" asp-append-version="true"></script>
+}

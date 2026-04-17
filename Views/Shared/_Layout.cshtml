@@ -1,0 +1,152 @@
+﻿<!DOCTYPE html>
+<html lang="es" data-bs-theme="dark">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Aurora's Gallery </title>
+    <link rel="stylesheet" href="~/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="~/fontawesome/css/all.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/toast-style.css" asp-append-version="true"/>
+    @await RenderSectionAsync("Styles", required: false)
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+
+    <header class="fixed-top d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 border-bottom"
+            style="background-color: rgba(18, 18, 18, 0.95); backdrop-filter: blur(10px); z-index: 1030;">
+
+        <div class="container-fluid d-flex align-items-center justify-content-between">
+            <div class="col-md-3 mb-2 mb-md-0">
+                <a href="/" class="d-inline-flex align-items-center link-body-emphasis text-decoration-none">
+                    <img src="~/imagenes/Logo Aurora F.png" alt="Logo" width="80" height="80" class="me-2" asp-append-version="true">
+                    <span class="logo-text">Aurora's Gallery</span>
+                </a>
+            </div>
+
+            <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+                <li><a asp-controller="Home" asp-action="Index" class="nav-link px-3">Inicio</a></li>
+                <li><a asp-controller="Galeria" asp-action="Galeria" class="nav-link px-3">Galería</a></li>
+                <li><a asp-controller="Artistas" asp-action="Artistas" class="nav-link px-3">Artistas</a></li>
+                <li><a asp-controller="Home" asp-action="AcercaDe" class="nav-link px-3">Acerca de</a></li>
+                <li><a asp-controller="Home" asp-action="Contacto" class="nav-link px-3">Contáctanos</a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link px-3 dropdown-toggle" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa-solid fa-user-shield me-1"></i> Admin
+                    </a>
+
+                    <ul class="dropdown-menu dropdown-menu-dark shadow" aria-labelledby="adminDropdown">
+                        <li>
+                            <a class="dropdown-item" asp-controller="Usuario" asp-action="Usuarios">
+                                <i class="fa-solid fa-users me-2 text-peach"></i> Usuarios
+                            </a>
+                            <a class="dropdown-item" asp-controller="Usuario" asp-action="Solicitudes">
+                                <i class="fa-solid fa-envelope-open-text text-peach me-2"></i> Solicitudes
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
+
+            </ul>
+
+            <div class="col-md-3 text-end">
+                <a asp-controller="Usuario" asp-action="Login" role="button" class="btn btn-outline-custom me-2">Iniciar Sesión</a>
+                <a asp-controller="Usuario" asp-action="Register" role="button" class="btn btn-custom">Registrarse</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container-fluid flex-grow-1 px-4">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="footer-custom py-5 mt-auto border-top">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-md-4 mb-3">
+                    <a href="/" class="d-flex align-items-center mb-3 link-body-emphasis text-decoration-none">
+                        <img src="~/imagenes/Logo Aurora F.png" alt="Logo" width="60" class="me-2">
+                        <span class="logo-text fs-4">Aurora's Gallery</span>
+                    </a>
+                    <p class="text-muted small">
+                        &copy; 2026 Aurora's Gallery, Inc.<br>
+                        Todos los derechos reservados.
+                    </p>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <h5 class="text-peach mb-3">Subida de Contenido</h5>
+                    <p class="small text-muted text-justify">
+                        Al subir arte a Aurora's Gallery, certificas que eres el autor original de la obra.
+                        Mantenemos una política de Cero Tolerancia al plagio y al uso de IA sin etiquetar.
+                    </p>
+                    <ul class="nav flex-column">
+                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted hover-link">Reglamento de la Comunidad</a></li>
+                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted hover-link">Términos y Condiciones</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <h5 class="text-peach mb-3">Contacto</h5>
+                    <ul class="nav flex-column mb-3">
+                        <li class="nav-item mb-2 text-muted small">
+                            <i class="fa-solid fa-envelope me-2"></i> soporte@ejemplo.com
+                        </li>
+                        <li class="nav-item mb-2 text-muted small">
+                            <i class="fa-solid fa-location-dot me-2"></i> Santa Ana, El Salvador
+                        </li>
+                    </ul>
+                    <div class="d-flex gap-3">
+                        <a asp-controller="Home" asp-action="Contacto" class="nav-link p-0 text-muted hover-link">Contáctanos</a></>
+                        <a class="text-secondary" href="#" aria-label="Instagram"><i class="fa-brands fa-instagram h3 social-icon"></i></a>
+                        <a class="text-secondary" href="#" aria-label="Twitter"><i class="fa-brands fa-x-twitter h3 social-icon"></i></a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </footer>
+
+    <script src="~/js/jquery.min.js"></script>
+    <script src="~/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="~/js/toast-script.js"></script>
+    @if (ViewBag.msg != null)
+    {
+        var m = ViewBag.msg;
+        <script>
+            $(document).ready(function(){
+                setTimeout(function(){
+                    let cod = @m.Cod;
+                    let msg = '@Html.Raw(m.Msg)';
+
+                    switch (cod)
+                    {
+                        case 1:
+                            toastr.success(msg);
+                            break;
+                        case 0:
+                            toastr.warning(msg);
+                            break;
+                        case 99:
+                            toastr.error(msg);
+                            break;
+                        default:
+                            toastr.info(msg);
+                            break;
+                    }
+
+                }, 300);
+            });
+        </script>
+    }
+    @await RenderSectionAsync("Scripts", required: false)
+
+</body>
+</html>

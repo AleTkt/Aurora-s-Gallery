@@ -1,0 +1,382 @@
+﻿@{
+    ViewData["Title"] = "Lista de Usuarios, Admin";
+}
+
+@section Styles {
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/toast-style.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true">
+}
+
+<section class="content-header py-4">
+    <div class="container-fluid px-2 px-lg-3">
+        <div class="row align-items-center">
+            <div class="col-sm-6">
+                <h2 class="fw-bold ls-1">
+                    <i class="fa-solid fa-users-gear text-peach me-2"></i> Gestión de Usuarios
+                </h2>
+                <h5 class="text-muted mb-0 ls-1">Administración del ecosistema de artistas.</h5>
+            </div>
+            <div class="col-sm-6">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb justify-content-sm-end bg-transparent p-0 m-0 align-items-center">
+                        <li class="breadcrumb-item fs-4">
+                            <a asp-controller="Home" asp-action="Index" class="text-decoration-none text-muted hover-peach">Inicio</a>
+                        </li>
+                        <li class="breadcrumb-item active fs-4 text-peach" aria-current="page">
+                            Usuarios
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <button type="button" class="btn btn-custom px-4 shadow-purple fs-5" data-bs-toggle="modal" data-bs-target="#agregarUsuarioModal">
+        <i class="fa-solid fa-user-plus me-2"></i> Agregar Usuario
+    </button>
+</div>
+
+<section class="content pb-5">
+    <div class="container-fluid px-2 px-lg-3">
+        <div class="card card-custom border-0 shadow-lg py-4">
+            <div class="card-body px-3 px-lg-3">
+                <div class="table-responsive overflow-hidden">
+                    <table id="tbl" class="table table-dark table-hover align-middle custom-aurora-table fs-6 w-100" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th class="text-peach py-3">No.</th>
+                                <th class="text-peach py-3">Usuario</th>
+                                <th class="text-peach py-3">Nombre corto</th>
+                                <th class="text-peach py-3">Nombre completo</th>
+                                <th class="text-peach py-3">Correo</th>
+                                <th class="text-peach py-3">Registro</th>
+                                <th class="text-peach py-3">Rol</th>
+                                <th class="text-peach py-3">Estado</th>
+
+                                <th style="width: 1%;"></th>
+                                <th style="width: 1%;"></th>
+                                <th style="width: 1%;"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int i = 1;
+                                foreach (var usuario in Model)
+                                {
+                                    <tr>
+                                        <td class="text-muted fw-bold py-3">@i</td>
+                                        <td class="py-3">@usuario["usuario"]</td>
+                                        <td class="text-muted py-3">@usuario["nombre_corto"]</td>
+                                        <td class="py-3">@usuario["nombre_completo"]</td>
+                                        <td class="text-muted py-3">@usuario["correo"]</td>
+                                        <td class="py-3">@Convert.ToDateTime(usuario["fecha_registro"]).ToString("dd/MM/yyyy")</td>
+
+                                        <td class="py-3"><span class="badge bg-secondary text-peach fs-6">@usuario["rol"]</span></td>
+                                        <td class="py-3">
+                                            @if (usuario["estado"].ToString() == "ACTIVO") 
+                                            {
+                                                <span class="badge bg-success bg-opacity-25 text-success border border-success fs-6">Activo</span>
+                                            }
+                                            else if (usuario["estado"].ToString() == "INACTIVO")
+                                            {
+                                                <span class="badge bg-warning bg-opacity-25 text-warning border border-warning fs-6">Inactivo</span>
+                                            }
+                                            else if (usuario["estado"].ToString() == "ELIMINADO")
+                                            {
+                                                <span class="badge bg-danger bg-opacity-25 text-danger border border-danger fs-6">Eliminado</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-secondary bg-opacity-25 text-secondary border border-secondary fs-6">Bloqueado</span>
+                                            }
+                                        </td>
+
+                                        <td class="text-center px-1 py-3">
+                                            <a role="button" class="btn btn-sm btn-outline-info" title="Reasignar contraseña" data-bs-toggle="modal" data-bs-target="#contrasenhaModal" onclick="$('#id_usuario_r').val(@usuario["id"]);$('#correo_r').val('@usuario["correo"]');$('#usuario_r').html('@usuario["usuario"]');">
+                                                <i class="fa-solid fa-key"></i>
+                                            </a>
+                                        </td>
+                                        <td class="text-center px-1 py-3">
+                                            <a role="button" class="btn btn-sm btn-outline-primary" title="Editar usuario" data-bs-toggle="modal" data-bs-target="#modificarUsuarioModal" onclick="cargarDatosUsuario(@usuario["id"]);">
+                                                <i class="fa-solid fa-pen-to-square"></i>
+                                            </a>
+                                        </td>
+                                        <td class="text-center px-1 py-3">
+                                            <a role="button" class="btn btn-sm btn-outline-danger" title="Eliminar usuario" data-bs-toggle="modal" data-bs-target="#eliminarUsuarioModal" onclick="$('#id_usuario_e').val(@usuario["id"]); $('#usuario_e').html('@usuario["usuario"]');">
+                                                <i class="fa-solid fa-trash-can"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    i++;
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Agregar Modal-->
+<div class="modal fade" id="agregarUsuarioModal" tabindex="-1" aria-labelledby="modalAgregarUsuarioLabel" aria-hidden="true" data-bs-theme="dark">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content card-custom border-1 border-secondary shadow-lg">
+
+            <div class="modal-header border-bottom border-secondary">
+                <h4 class="modal-title fw-bold text-peach ls-1" id="modalAgregarUsuarioLabel">
+                    <i class="fa-solid fa-user-plus me-2"></i> Registrar Nuevo Usuario
+                </h4>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+
+            <div class="modal-body p-4">
+                <form id="frmAgregarUsuario">
+                    @Html.AntiForgeryToken()
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="addUsuario" class="form-label text-muted small ms-1">Usuario (Nickname)</label>
+                            <input type="text" class="form-control form-control-custom" id="a_usuario" name="usuario" placeholder="Ej. AuroraArt" required>
+                            <div class="invalid-feedback"> El usuario ya se encuentra en uso.</div>
+                        </div>
+                        <div class="col-md-6 mt-3 mt-md-0">
+                            <label for="addNombreCorto" class="form-label text-muted small ms-1">Nombre Corto</label>
+                            <input type="text" class="form-control form-control-custom" id="nombre_corto" name="nombre_corto" placeholder="Ej. Aurora R." required>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="addNombreCompleto" class="form-label text-muted small ms-1">Nombre Completo</label>
+                            <input type="text" class="form-control form-control-custom" id="nombre_completo" name="nombre_completo" placeholder="Nombre real completo" required>
+                        </div>
+                        <div class="col-md-6 mt-3 mt-md-0">
+                            <label for="addCorreo" class="form-label text-muted small ms-1">Correo Electrónico</label>
+                            <input type="email" class="form-control form-control-custom" id="correo" name="correo" placeholder="correo@ejemplo.com" required>
+                            <div class="invalid-feedback"> El correo ya se encuentra registrado en esta plataforma.</div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <label for="addContrasenha" class="form-label text-muted small ms-1">Contraseña</label>
+                            <input type="password" class="form-control form-control-custom" id="contrasenha" name="contrasenha" placeholder="••••••••" required>
+                        </div>
+                        <div class="col-md-6 mt-3 mt-md-0">
+                            <label for="addRol" class="form-label text-muted small ms-1">Rol en el Sistema</label>
+                            <select class="form-control form-control-custom form-select" id="rol" name="id_rol" required>
+                                <option value="" selected disabled>Seleccione un rol...</option>
+                                <option value="1">Administrador</option>
+                                <option value="2">Supervisor</option>
+                                <option value="3">Operador</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer border-top border-secondary">
+                        <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" form="frmAgregarUsuario" class="btn btn-custom rounded-pill px-4 shadow-purple">
+                            <i class="fa-solid fa-floppy-disk me-2"></i> Guardar Usuario
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modificar Modal-->
+<div class="modal fade" id="modificarUsuarioModal" tabindex="-1" aria-labelledby="modificarUsuarioLabel" aria-hidden="true" data-bs-theme="dark">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content card-custom border-1 border-secondary shadow-lg">
+
+            <div class="modal-header border-bottom border-secondary">
+                <h4 class="modal-title fw-bold text-peach ls-1" id="modificarUsuarioLabel">
+                    <i class="fa-solid fa-user-plus me-2"></i> Modificar Usuario
+                </h4>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+
+            <div class="modal-body p-4">
+                <form id="frmModificarUsuario">
+                    @Html.AntiForgeryToken()
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="modifyUsuario" class="form-label text-muted small ms-1">Usuario (Nickname)</label>
+                            <input id="id_usuario_m" name="id_usuario" type="hidden" />
+                            <input type="text" class="form-control form-control-custom" id="usuario_m" name="usuario" placeholder="Ej. AuroraArt" required>
+                            <div class="invalid-feedback"> El usuario ya se encuentra en uso.</div>
+                        </div>
+                        <div class="col-md-6 mt-3 mt-md-0">
+                            <label for="modifyNombreCorto" class="form-label text-muted small ms-1">Nombre Corto</label>
+                            <input type="text" class="form-control form-control-custom" id="nombre_corto_m" name="nombre_corto" placeholder="Ej. Aurora R." required>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="modifyNombreCompleto" class="form-label text-muted small ms-1">Nombre Completo</label>
+                            <input type="text" class="form-control form-control-custom" id="nombre_completo_m" name="nombre_completo" placeholder="Nombre real completo" required>
+                        </div>
+                        <div class="col-md-6 mt-3 mt-md-0">
+                            <label for="modifyCorreo" class="form-label text-muted small ms-1">Correo Electrónico</label>
+                            <input type="email" class="form-control form-control-custom" id="correo_m" name="correo" placeholder="correo@ejemplo.com" required>
+                            <div class="invalid-feedback"> El correo ya se encuentra registrado en esta plataforma.</div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col-md-6 mt-3 mt-md-0">
+                            <label for="modifyRol" class="form-label text-muted small ms-1">Rol en el Sistema</label>
+                            <select class="form-control form-control-custom form-select" id="rol_m" name="rol" required>
+                                <option value="" selected disabled>Seleccione un rol...</option>
+                                <option value="1">Administrador</option>
+                                <option value="2">Supervisor</option>
+                                <option value="3">Operador</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mt-3 mt-md-0">
+                            <label for="modifyRol" class="form-label text-muted small ms-1">Estado en la plataforma</label>
+                            <select class="form-control form-control-custom form-select" id="estado_m" name="estado" required>
+                                <option value="" selected disabled>Seleccione un rol...</option>
+                                <option value="1">Activo</option>
+                                <option value="2">Inactivo</option>
+                                <option value="3">Bloqueado</option>
+                                <option value="99">Eliminado</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer border-top border-secondary">
+                        <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" form="frmModificarUsuario" class="btn btn-custom rounded-pill px-4 shadow-purple">
+                            <i class="fa-solid fa-floppy-disk me-2"></i> Guardar Cambios
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Contrasenha Modal-->
+<div class="modal fade" id="contrasenhaModal" tabindex="-1" aria-labelledby="contrasenhaLabel" aria-hidden="true" data-bs-theme="dark">
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content card-custom border-1 border-secondary shadow-lg">
+
+            <form id="formReasignar" method="post" asp-controller="Usuario" asp-action="ReasignarContrasenha">
+                @Html.AntiForgeryToken()
+
+                <input id="id_usuario_r" name="id_usuario" type="hidden" />
+                <input id="correo_r" name="correo" type="hidden" />
+
+                <div class="modal-header border-bottom border-secondary">
+                    <h5 class="modal-title fw-bold text-info ls-1" id="contrasenhaLabel">
+                        <i class="fa-solid fa-key me-2"></i> Reasignar Contraseña
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+
+                <div class="modal-body p-4 text-center">
+
+                    <div class="mb-4">
+                        <i class="fa-solid fa-unlock-keyhole text-info" style="font-size: 4rem; filter: drop-shadow(0 0 15px rgba(23, 162, 184, 0.4));"></i>
+                    </div>
+
+                    <h4 class="text-white mb-2">Generar nueva clave</h4>
+                    <p class="text-muted fs-6 mb-2">Se reasignará la contraseña para el usuario:</p>
+
+                    <p class="fs-4 fw-bold text-peach mb-4" id="usuario_r"></p>
+
+                    <div class="form-group text-start px-md-3">
+                        <label for="contrasenha_r" class="form-label text-muted small ms-1">Nueva contraseña</label>
+                        <div class="input-group mb-2">
+                            <span class="input-group-text bg-dark border-secondary text-info">
+                                <i class="fa-solid fa-lock"></i>
+                            </span>
+                            <input type="text" class="form-control form-control-custom border-start-0 ps-0" id="contrasenha_r" name="contrasenha" placeholder="Escriba o genere una clave" required />
+
+                            <button type="button" id="btnRandom" class="btn btn-outline-info px-3" title="Generar clave aleatoria">
+                                <i class="fa-solid fa-shuffle"></i>
+                            </button>
+                        </div>
+                        <p class="text-muted small mb-0"><i class="fa-solid fa-circle-info me-1"></i> Se enviará automáticamente al correo del usuario.</p>
+                    </div>
+                </div>
+
+                <div class="modal-footer border-top border-secondary justify-content-center gap-2 pb-4 mt-2">
+                    <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-info text-white rounded-pill px-4" style="box-shadow: 0 4px 15px rgba(23, 162, 184, 0.3);">
+                        <i class="fa-solid fa-paper-plane me-2"></i> Guardar y Enviar
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Eliminar Modal-->
+<div class="modal fade" id="eliminarUsuarioModal" tabindex="-1" aria-labelledby="eliminarUsuarioLabel" aria-hidden="true" data-bs-theme="dark">
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content card-custom border-1 border-secondary shadow-lg">
+
+            <form id="formEliminarUsuario" method="post" asp-controller="Usuario" asp-action="EliminarUsuario">
+                @Html.AntiForgeryToken()
+
+                <input id="id_usuario_e" name="id_usuario" type="hidden" />
+
+                <div class="modal-header border-bottom border-secondary">
+                    <h5 class="modal-title fw-bold text-danger ls-1" id="eliminarUsuarioLabel">
+                        <i class="fa-solid fa-triangle-exclamation me-2"></i> Eliminar Usuario
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+
+                <div class="modal-body p-4 text-center">
+
+                    <div class="mb-4">
+                        <i class="fa-solid fa-trash-can text-danger" style="font-size: 4rem; filter: drop-shadow(0 0 15px rgba(255, 76, 76, 0.4));"></i>
+                    </div>
+
+                    <h4 class="text-white mb-3">¿Estás completamente seguro?</h4>
+
+                    <p class="text-muted fs-6 mb-2">
+                        Estás a punto de eliminar permanentemente al usuario: <br>
+                    </p>
+
+                    <p class="fs-4 fw-bold text-peach mb-4" id="usuario_e">
+                    </p>
+
+                    <p class="text-muted small mb-0">Esta acción no se puede deshacer y borrará su acceso al lienzo.</p>
+                </div>
+
+                <div class="modal-footer border-top border-secondary justify-content-center gap-2 pb-4">
+                    <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-danger rounded-pill px-4" style="box-shadow: 0 4px 15px rgba(255, 76, 76, 0.3);">
+                        <i class="fa-solid fa-trash me-2"></i> Sí, eliminar
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+    <script src="~/js/datatable-script.js" asp-append-version="true"></script>
+    <script src="~/js/my-scripts.js" asp-append-version="true"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="~/js/toast-script.js"></script>
+    <script src="~/js/ajax-scripts.js" asp-append-version="true"></script>
+}

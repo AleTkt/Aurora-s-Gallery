@@ -1,0 +1,96 @@
+﻿/* ==========================================
+   ESTILOS PERSONALIZADOS PARA TOASTR
+   Tema: Aurora's Gallery (Dark / Neon)
+   ========================================== */
+
+:root {
+    --bg-dark: #121212;
+    --bg-panel: #282828;
+    --primary-purple: #9C41F0;
+    --accent-peach: #FF9E7A;
+    --text-main: #f0f0f0;
+    --text-muted: #a0a0a0;
+}
+
+/* 1. Contenedor y forma base de la tarjeta */
+#toast-container > div {
+    /* Eliminamos el background-color global para aplicarlo por tipo */
+    color: var(--text-main) !important;
+    font-family: "Jockey One", sans-serif;
+    font-size: 1.2rem;
+    font-weight: normal;
+    border-radius: 12px;
+    opacity: 0.98 !important; /* Un poco más sólido para que el color resalte más */
+    backdrop-filter: blur(10px); /* Efecto cristal si hay algo debajo */
+
+    min-height: 60px;
+    height: auto;
+    width: 380px !important;
+    margin-top: 15px;
+    padding: 15px 15px 15px 50px !important;
+    display: flex;
+    align-items: center;
+}
+
+    /* Evitamos que el texto se aplaste */
+    #toast-container > div .toast-message {
+        width: 100%;
+        word-wrap: break-word;
+        letter-spacing: 0.5px;
+    }
+
+/* ==========================================
+   2. COLORES POR TIPO DE NOTIFICACIÓN
+   Aplicamos un degradado vibrante que se difumina hacia el gris
+   ========================================== */
+
+/* ÉXITO (Verde Neón) */
+#toast-container > .toast-success {
+    background: linear-gradient(135deg, rgba(0, 230, 118, 0.4) 0%, var(--bg-panel) 60%) !important;
+    border: 1px solid rgba(0, 230, 118, 0.3) !important;
+    border-left: 6px solid #00E676 !important;
+    box-shadow: 0 8px 25px rgba(0, 230, 118, 0.25) !important;
+}
+
+/* ERROR (Rojo Coral) */
+#toast-container > .toast-error {
+    background: linear-gradient(135deg, rgba(255, 76, 76, 0.4) 0%, var(--bg-panel) 60%) !important;
+    border: 1px solid rgba(255, 76, 76, 0.3) !important;
+    border-left: 6px solid #FF4C4C !important;
+    box-shadow: 0 8px 25px rgba(255, 76, 76, 0.25) !important;
+}
+
+/* ADVERTENCIA (Durazno / Peach) */
+#toast-container > .toast-warning {
+    background: linear-gradient(135deg, rgba(255, 158, 122, 0.4) 0%, var(--bg-panel) 60%) !important;
+    border: 1px solid rgba(255, 158, 122, 0.3) !important;
+    border-left: 6px solid var(--accent-peach) !important;
+    box-shadow: 0 8px 25px rgba(255, 158, 122, 0.25) !important;
+}
+
+/* INFORMACIÓN (Morado Principal) */
+#toast-container > .toast-info {
+    background: linear-gradient(135deg, rgba(156, 65, 240, 0.4) 0%, var(--bg-panel) 60%) !important;
+    border: 1px solid rgba(156, 65, 240, 0.3) !important;
+    border-left: 6px solid var(--primary-purple) !important;
+    box-shadow: 0 8px 25px rgba(156, 65, 240, 0.30) !important;
+}
+
+/* ==========================================
+   3. EXTRAS ELEGANTES
+   ========================================== */
+
+/* Efecto al pasar el mouse por encima */
+#toast-container > div:hover {
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6) !important;
+    transform: translateY(-2px);
+    transition: all 0.3s ease;
+}
+
+/* Barra de progreso animada */
+#toast-container .toast-progress {
+    background-color: rgba(255, 255, 255, 0.4) !important; /* Más visible */
+    bottom: 0;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+}

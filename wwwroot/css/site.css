@@ -1,0 +1,427 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Jockey+One&display=swap');
+
+:root {
+    --bg-dark: #121212;
+    --bg-panel: #282828;
+    --primary-purple: #9C41F0;
+    --accent-peach: #FF9E7A;
+    --text-main: #f0f0f0;
+    --text-muted: #a0a0a0;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+body {
+    font-family: "Jockey One", sans-serif;
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    letter-spacing: 0.5px;
+    padding-top: 220px;
+}
+
+/* Apartado del Header */
+
+header {
+    background-color: rgba(18, 18, 18, 0.95);
+    border-bottom: 1px solid #333; 
+    padding: 1rem 0;
+}
+
+.logo-text {
+    font-size: 2.1rem;
+    text-transform: uppercase;
+    background: linear-gradient(90deg, var(--primary-purple), var(--accent-peach));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-decoration: none;
+}
+
+.nav-link {
+    color: var(--text-muted) !important;
+    transition: all 0.3s ease;
+    font-size: 1.4rem;
+    position: relative;
+}
+
+    .nav-link:hover, .nav-link.active {
+        color: var(--primary-purple) !important;
+    }
+
+    .nav-link::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: 0;
+        left: 50%;
+        background-color: var(--accent-peach);
+        transition: all 0.3s ease;
+    }
+
+    .nav-link:hover::after {
+        width: 80%;
+        left: 10%;
+    }
+
+.btn-outline-custom {
+    color: var(--accent-peach);
+    font-size: 1.2rem;
+    border: 2px solid var(--accent-peach);
+    border-radius: 20px;
+    padding: 5px 20px;
+    transition: 0.3s;
+}
+
+    .btn-outline-custom:hover {
+        background-color: var(--accent-peach);
+        color: var(--bg-dark);
+    }
+
+.btn-custom {
+    background-color: var(--primary-purple);
+    color: white;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 20px;
+    padding: 5px 20px;
+    margin-left: 10px;
+    transition: 0.3s;
+}
+
+    .btn-custom:hover {
+        background-color: #6d1bb8;
+        color: white;
+    }
+
+/* Apartado del Footer */
+
+.footer-custom {
+    background-color: var(--bg-panel); 
+    color: var(--text-muted);
+    font-size: 1.2rem;
+}
+
+.text-peach {
+    color: var(--accent-peach) !important;
+    font-weight: bold;
+    letter-spacing: 0.9px;
+}
+
+.hover-link {
+    transition: color 0.3s ease;
+}
+
+    .hover-link:hover {
+        color: var(--primary-purple) !important;
+    }
+
+.social-icon {
+    transition: transform 0.3s, color 0.3s;
+}
+
+    .social-icon:hover {
+        color: var(--accent-peach);
+    }
+
+.text-justify {
+    text-align: justify;
+}
+
+.footer-custom .nav-link {
+    width: fit-content; 
+    display: block; 
+}
+
+    .footer-custom .nav-link::after {
+        left: 0;
+        transform-origin: left;
+    }
+
+    .footer-custom .nav-link:hover::after {
+        left: 0;
+        width: 100%;
+    }
+
+/* Apartado de estilos Home */
+
+.hero-banner {
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5)), url('/imagenes/srvhonestreaction.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 500px;
+    border: 1px solid #333;
+    box-shadow: 0 0 30px rgba(156, 65, 240, 0.15);
+    position: relative;
+    overflow: hidden;
+}
+
+.gradient-text {
+    background: linear-gradient(90deg, var(--primary-purple), var(--accent-peach));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.feature-card {
+    background-color: var(--bg-panel);
+    border: 1px solid transparent;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+    .feature-card:hover {
+        transform: translateY(-7px);
+        border-color: var(--primary-purple);
+    }
+
+.text-purple {
+    color: var(--primary-purple);
+}
+
+.fade-in-up {
+    animation: fadeInUp 1s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Apartado de estilos Contacto */
+
+.breadcrumb-item + .breadcrumb-item::before {
+    color: var(--text-muted);
+}
+
+.hover-peach:hover {
+    color: var(--accent-peach) !important;
+    transition: color 0.3s;
+}
+
+.card-custom {
+    background-color: var(--bg-panel); 
+    border: 1px solid #333;
+    border-radius: 15px; 
+    overflow: hidden; 
+}
+
+
+.bg-dark-accent {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-left: 1px solid #333;
+}
+
+.form-control-custom {
+    background-color: var(--bg-dark); 
+    border: 1px solid #444;
+    color: var(--text-main);
+    padding: 12px 15px;
+    border-radius: 8px;
+}
+
+    .form-control-custom:focus {
+        background-color: var(--bg-dark);
+        color: white;
+        border-color: var(--primary-purple); 
+        box-shadow: 0 0 0 0.25rem rgba(156, 65, 240, 0.25); 
+    }
+
+    .form-control-custom::placeholder {
+        color: #555;
+        font-style: italic;
+    }
+
+.ls-1 {
+    letter-spacing: 1.5px; 
+}
+
+.breadcrumb-item {
+    display: flex;
+    align-items: center;
+}
+
+    .breadcrumb-item + .breadcrumb-item::before {
+        content: "/";
+        color: var(--text-muted);
+        padding-left: 1rem; 
+        padding-right: 1rem; 
+        font-size: 1.5rem;
+    }
+
+    .breadcrumb-item.fs-4 {
+        font-weight: bold; 
+    }
+
+/* Apartado breve del Acerca De*/
+.badge {
+    font-weight: normal;
+    letter-spacing: 0.5px;
+    padding: 0.5em 0.8em;
+}
+
+/* Apartado de estilos para Login y Register */
+
+.auth-bg {
+    background-color: var(--bg-dark);
+    background-image: radial-gradient(circle at 50% 50%, #1e1024 0%, #121212 70%);
+    min-height: 100vh;
+}
+
+.shadow-purple {
+    box-shadow: 0 4px 15px rgba(138, 43, 226, 0.4);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+    .shadow-purple:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(138, 43, 226, 0.6);
+    }
+
+.input-group-text {
+    background-color: var(--bg-dark) !important;
+    border-color: #444 !important;
+}
+
+.input-group:focus-within .input-group-text {
+    border-color: var(--primary-purple) !important;
+    color: var(--primary-purple) !important;
+}
+
+.input-group:focus-within .form-control-custom {
+    border-left-color: transparent; 
+}
+
+.hover-white:hover {
+    color: white !important;
+    transition: color 0.3s;
+}
+
+/* --- CORRECCIÓN DE ESPACIADO EN AUTH --- */
+
+/* Esta clase elimina el padding-top global de 220px solo en login/registro */
+.auth-body-fix {
+    padding-top: 0 !important;
+    display: flex; /* Habilita flexbox en el body */
+    flex-direction: column; /* Organiza hijos en columna */
+    overflow: hidden; /* Evita scroll si no es necesario */
+}
+
+    .auth-body-fix .min-vh-100 {
+        min-height: 100vh !important;
+        padding-top: 60px; 
+    }
+
+/* --- ESTILOS DEL DROPDOWN (ADMIN) --- */
+.dropdown-menu-dark {
+    background-color: var(--bg-panel); /* Usa tu fondo gris oscuro */
+    border: 1px solid #333;
+    border-radius: 10px;
+}
+
+    .dropdown-menu-dark .dropdown-item {
+        color: var(--text-main);
+        transition: all 0.2s ease;
+        padding: 0.5rem 1.5rem;
+    }
+
+        /* Efecto al pasar el mouse por las opciones del dropdown */
+        .dropdown-menu-dark .dropdown-item:hover,
+        .dropdown-menu-dark .dropdown-item:focus {
+            background-color: var(--bg-dark); /* Fondo más oscuro */
+            color: var(--primary-purple); /* Texto morado */
+            transform: translateX(5px); /* Pequeño movimiento a la derecha muy elegante */
+        }
+
+
+
+/* ==========================================
+   ESTILOS PARA TABLAS Y DATATABLES (ADMIN)
+   ========================================== */
+
+/* Fondo de la tabla que coincida con el panel */
+.custom-aurora-table {
+    background-color: var(--bg-panel);
+    border-collapse: separate;
+    border-spacing: 0 5px; /* Crea un pequeño espacio entre las filas */
+}
+
+    /* Redondear bordes de las filas para un look de tarjetas pequeñas */
+    .custom-aurora-table tbody tr td:first-child {
+        border-top-left-radius: 8px;
+        border-bottom-left-radius: 8px;
+    }
+
+    .custom-aurora-table tbody tr td:last-child {
+        border-top-right-radius: 8px;
+        border-bottom-right-radius: 8px;
+    }
+
+/* Evitar que el fondo oscuro de Bootstrap mate nuestro color */
+.table-dark {
+    --bs-table-bg: transparent;
+    --bs-table-striped-bg: rgba(255, 255, 255, 0.02);
+    --bs-table-hover-bg: rgba(156, 65, 240, 0.1); /* Hover color morado muy sutil */
+}
+
+    .table-dark td, .table-dark th {
+        border-color: #333; /* Líneas divisorias muy oscuras */
+    }
+
+/* ---- Ajustes específicos para el plugin DataTables en Modo Oscuro ---- */
+
+/* Texto blanco para los labels de "Mostrar X registros" y "Buscar" */
+.dataTables_wrapper .dataTables_length,
+.dataTables_wrapper .dataTables_filter,
+.dataTables_wrapper .dataTables_info,
+.dataTables_wrapper .dataTables_processing,
+.dataTables_wrapper .dataTables_paginate {
+    color: var(--text-muted) !important;
+    margin-bottom: 15px;
+    margin-top: 15px;
+}
+
+/* Estilo para el input de buscar y el select de cantidad */
+.dataTables_wrapper input[type="search"],
+.dataTables_wrapper select {
+    background-color: var(--bg-dark);
+    border: 1px solid #444;
+    color: var(--text-main);
+    border-radius: 6px;
+    padding: 4px 10px;
+}
+
+    .dataTables_wrapper input[type="search"]:focus,
+    .dataTables_wrapper select:focus {
+        border-color: var(--primary-purple);
+        outline: none;
+        box-shadow: 0 0 0 0.2rem rgba(156, 65, 240, 0.25);
+    }
+
+/* Paginación: Botones numéricos */
+.dataTables_wrapper .page-item .page-link {
+    background-color: var(--bg-panel);
+    border-color: #444;
+    color: var(--text-muted);
+}
+
+.dataTables_wrapper .page-item.active .page-link {
+    background-color: var(--primary-purple);
+    border-color: var(--primary-purple);
+    color: white;
+}
+
+.dataTables_wrapper .page-item.disabled .page-link {
+    background-color: var(--bg-dark);
+    color: #555;
+}

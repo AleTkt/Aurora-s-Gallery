@@ -1,0 +1,110 @@
+﻿@{
+    Layout = null;
+    ViewData["Title"] = "Solicitar Ingreso";
+}
+
+<!DOCTYPE html>
+<html lang="es" data-bs-theme="dark">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Aurora's Gallery</title>
+
+    <link rel="stylesheet" href="~/css/bootstrap.min.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/fontawesome/css/all.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/toast-style.css" asp-append-version="true">
+</head>
+
+<body class="auth-bg auth-body-fix">
+
+    <nav class="navbar fixed-top px-4 py-3">
+        <div class="container-fluid">
+            <a href="/" class="d-flex align-items-center text-decoration-none">
+                <img src="~/imagenes/Logo Aurora F.png" alt="Logo" width="80" height="80" class="me-2">
+                <span class="logo-text">Aurora's Gallery</span>
+            </a>
+        </div>
+    </nav>
+
+    <div class="min-vh-100 d-flex align-items-center justify-content-center container-fluid px-4">
+        <div class="col-10 col-lg-8 col-xl-7">
+            <div class="card card-custom border-0 shadow-lg overflow-hidden">
+                <div class="row g-0">
+
+                    <div class="col-md-7 p-4 p-sm-5">
+                        <div class="text-center mb-5">
+                            <h1 class="fw-bold text-white ls-1">Únete al Lienzo</h1>
+                            <p class="text-muted small fs-5">Envía tu solicitud para unirte a nuestra exclusiva galería de artistas.</p>
+                        </div>
+
+                        <form id="formSolicitud">
+                            @Html.AntiForgeryToken()
+
+                            <div class="row mb-3">
+                                <div class="col-md-6 mb-3 mb-md-0">
+                                    <label for="nombres" class="form-label text-muted small ms-1 fs-5">Nombres</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-dark border-secondary text-peach fs-5">
+                                            <i class="fa-solid fa-user"></i>
+                                        </span>
+                                        <input type="text" class="form-control form-control-custom border-start-0 ps-0 fs-5" id="nombres" name="nombres" placeholder="Ej. Aurora" required>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label for="apellidos" class="form-label text-muted small ms-1 fs-5">Apellidos</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-dark border-secondary text-peach fs-5">
+                                            <i class="fa-regular fa-user"></i>
+                                        </span>
+                                        <input type="text" class="form-control form-control-custom border-start-0 ps-0 fs-5" id="apellidos" name="apellidos" placeholder="Ej. Rodríguez" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="correo" class="form-label text-muted small ms-1 fs-5">Correo Electrónico</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-dark border-secondary text-peach fs-5">
+                                        <i class="fa-solid fa-envelope"></i>
+                                    </span>
+                                    <input type="email" class="form-control form-control-custom border-start-0 ps-0 fs-5" id="correo" name="correo" placeholder="hola@ejemplo.com" required>
+                                </div>
+                                <div class="form-text text-muted mt-2">
+                                    <i class="fa-solid fa-circle-info me-1"></i> Te contactaremos a este correo si tu solicitud es aprobada.
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-custom w-100 py-3 fs-4 mb-4 shadow-purple">
+                                <i class="fa-solid fa-paper-plane me-2"></i> Enviar Solicitud
+                            </button>
+
+                            <div class="text-center mt-2">
+                                <p class="text-muted mb-0 fs-5">¿Ya eres parte de la galería?</p>
+                                <a asp-controller="Usuario" asp-action="Login" class="text-peach fw-bold text-decoration-none hover-white fs-5">
+                                    Inicia Sesión aquí <i class="fa-solid fa-arrow-right ms-1 fs-5"></i>
+                                </a>
+                            </div>
+
+                        </form>
+                    </div>
+
+                    <div class="col-md-5 d-none d-md-flex align-items-center justify-content-center bg-dark bg-opacity-50 border-start border-secondary border-opacity-25 p-4">
+                        <img src="~/imagenes/Logo Aurora F.png" alt="Ilustración de Registro" class="img-fluid" style="max-height: 500px; object-fit: contain;">
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="~/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="~/js/ajax-scripts.js" asp-append-version="true"></script>
+    <script src="~/js/toast-script.js"></script>
+</body>
+</html>

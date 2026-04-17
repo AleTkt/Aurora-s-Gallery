@@ -1,0 +1,109 @@
+﻿@{
+    ViewData["Title"] = "Contacto";
+}
+
+<section class="content-header py-4">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-sm-6">
+                <h2 class="fw-bold ls-1">
+                    <i class="fa-solid fa-envelope text-peach me-2"></i> Contáctanos
+                </h2>
+                <h5 class="text-muted mb-0 ls-1">Estamos aquí para resolver tus dudas artísticas.</h5>
+            </div>
+            <div class="col-sm-6">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb justify-content-sm-end bg-transparent p-0 m-0 align-items-center">
+                        <li class="breadcrumb-item fs-4">
+                            <a asp-controller="Home" asp-action="Index" class="text-decoration-none text-muted hover-peach">Inicio</a>
+                        </li>
+                        <li class="breadcrumb-item active fs-4 text-peach" aria-current="page">
+                            Contáctanos
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="content pb-5">
+    <div class="container">
+
+        <div class="card card-custom border-0 shadow-lg">
+            <div class="card-body p-0">
+                <div class="row g-0">
+
+                    <div class="col-lg-7 p-5">
+                        <h3 class="mb-4 text-white ls-1">Envíanos un mensaje</h3>
+                        <form>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="nombre" class="form-label text-muted">Tu Nombre</label>
+                                    <input type="text" class="form-control form-control-custom" id="nombre" placeholder="Ej. Aurora">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="email" class="form-label text-muted">Tu Email</label>
+                                    <input type="email" class="form-control form-control-custom" id="email" placeholder="hola@ejemplo.com">
+                                </div>
+                                <div class="col-12">
+                                    <label for="asunto" class="form-label text-muted">Asunto</label>
+                                    <input type="text" class="form-control form-control-custom" id="asunto" placeholder="Consulta sobre comisiones...">
+                                </div>
+                                <div class="col-12">
+                                    <label for="mensaje" class="form-label text-muted">Mensaje</label>
+                                    <textarea class="form-control form-control-custom" id="mensaje" rows="5" placeholder="Escribe tu mensaje aquí..."></textarea>
+                                </div>
+                                <div class="col-12 mt-4">
+                                    <button type="submit" class="btn btn-custom px-4 py-2 w-100 w-md-auto">
+                                        <i class="fa-solid fa-paper-plane me-2"></i> Enviar Mensaje
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="col-lg-5 bg-dark-accent p-5 d-flex flex-column text-white">
+                        <h3 class="mb-4 text-peach ls-1">Información Directa</h3>
+
+                        <div class="d-flex mb-4 align-items-start">
+                            <div class="icon-box-small me-3 text-peach">
+                                <i class="fa-solid fa-envelope fa-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="fw-bold mb-1 fs-5">Correo Electrónico</h4>
+                                <p class="text-muted medium mb-0">soporte@aurora.com</p>
+                            </div>
+                        </div>
+
+                        <div class="d-flex mb-5 align-items-start">
+                            <div class="icon-box-small me-3 text-peach">
+                                <i class="fa-solid fa-phone fa-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="fw-bold mb-1 fs-5">Teléfono</h4>
+                                <p class="text-muted medium mb-0">+503 1234-1234</p>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <a class="d-flex align-items-center link-body-emphasis text-decoration-none">
+                                <img src="~/imagenes/Logo Aurora F.png" alt="Logo" width="60" class="me-2">
+                                <span class="logo-text fs-4">Aurora's Gallery</span>
+                            </a>
+                        </div>
+
+                        <div class="mt-auto">
+                            <h6 class="text-muted mb-3 ls-1">Síguenos:</h6>
+                            <div class="d-flex gap-3">
+                                <a class="text-secondary hover-peach" href="#"><i class="fa-brands fa-instagram h3"></i></a>
+                                <a class="text-secondary hover-peach" href="#"><i class="fa-brands fa-x-twitter h3"></i></a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

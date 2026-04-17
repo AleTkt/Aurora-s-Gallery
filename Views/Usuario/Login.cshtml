@@ -1,0 +1,91 @@
+﻿@{
+    Layout = null;
+    ViewData["Title"] = "Iniciar Sesión";
+}
+
+<!DOCTYPE html>
+<html lang="es" data-bs-theme="dark">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Aurora's Gallery</title>
+
+    <link rel="stylesheet" href="~/css/bootstrap.min.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/fontawesome/css/all.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/toast-style.css" asp-append-version="true">
+</head>
+<body class="auth-bg auth-body-fix">
+
+    <nav class="navbar fixed-top px-4 py-3">
+        <div class="container-fluid">
+            <a href="/" class="d-flex align-items-center text-decoration-none">
+                <img src="~/imagenes/Logo Aurora F.png" alt="Logo" width="80" height="80" class="me-2">
+                <span class="logo-text">Aurora's Gallery</span>
+            </a>
+        </div>
+    </nav>
+
+    <div class="min-vh-100 d-flex align-items-center justify-content-center container">
+        <div class="col-md-5 col-lg-4">
+
+            <div class="card card-custom border-0 shadow-lg p-4">
+                <div class="card-body">
+
+                    <div class="text-center mb-4">
+                        <h1 class="fw-bold text-white ls-1">Bienvenido</h1>
+                        <p class="text-muted small fs-4">Ingresa tus credenciales para acceder al lienzo.</p>
+                    </div>
+
+                    <form id="loginForm">
+                        @Html.AntiForgeryToken()
+                        <div class="mb-3">
+                            <label for="email" class="form-label text-muted small ms-1 fs-5">Usuario</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-dark border-secondary text-peach fs-5">
+                                    <i class="fa-solid fa-user"></i>
+                                </span>
+                                <input type="text" class="form-control form-control-custom border-start-0 ps-0 fs-5" id="usuario" name="usuario" placeholder="Nombre de usuario" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="password" class="form-label text-muted small ms-1 fs-5">Contraseña</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-dark border-secondary text-peach fs-5">
+                                    <i class="fa-solid fa-lock"></i>
+                                </span>
+                                <input type="password" class="form-control form-control-custom border-start-0 ps-0 fs-5" id="contrasenha" name="contrasenha" placeholder="••••••••" required>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-custom w-100 py-2 fs-3 mb-3 shadow-purple">
+                            Iniciar Sesión
+                        </button>
+
+                        <div class="text-center mt-3">
+                            <a asp-controller="Usuario" asp-action="Recuperar" class="text-peach fw-bold text-decoration-none hover-white fs-6">¿Olvidaste tu contraseña?</a>
+                        </div>
+
+                        <div class="text-center mt-3">
+                            <p class="text-muted mb-0 fs-5">¿Aún no tienes cuenta?</p>
+                            <a asp-controller="Usuario" asp-action="Register" class="text-peach fw-bold text-decoration-none hover-white fs-5">
+                                Regístrate aquí <i class="fa-solid fa-arrow-right ms-1 fs-5"></i>
+                            </a>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="~/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="~/js/ajax-scripts.js" asp-append-version="true"></script>
+    <script src="~/js/toast-script.js"></script>
+</body>
+</html>
