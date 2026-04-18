@@ -8,10 +8,11 @@ using Catalogo_sis.Helpers;
 
 namespace Catalogo_sis.Controllers
 {
-    public class UsuarioController(UsuarioModel usuarioModel) : Controller
+    public class UsuarioController(UsuarioModel usuarioModel, Data data) : Controller
     {
 
         private readonly UsuarioModel _usuarioModel = usuarioModel;
+        private readonly Data _data = data;
         public IActionResult Login()
         {
             return View();
@@ -49,6 +50,8 @@ namespace Catalogo_sis.Controllers
                 ViewBag.msg = TempData.Get<Alerta>("Alerta");
             }
             var usuarios = _usuarioModel.ListarUsuarios();
+            ViewBag.roles = _data.LlenarSelect("roles", "id_rol", "id_rol", "rol");
+            ViewBag.estados = _data.LlenarSelect("estados", "estado", "id_estado", "estado");
             return View(usuarios);
         }
 
@@ -153,6 +156,47 @@ namespace Catalogo_sis.Controllers
                 return Json(new { success = false, msg = "Error al recuperar la contraseña, vuelva a intentarlo" });
             }
             return Json(new { success = false, msg = "El correo ingresado no está registrado en el sistema." });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public JsonResult ModificarContrasenha(
+            [Required] string c_actual, 
+            [Required] string c_nueva, 
+            [Required] string c_conf, 
+            [Required] int id
+            )
+        {
+            if (!ModelState.IsValid)
+            {
+                return Json(new { success = false, msg = "Por favor, complete todos los campos obligatorios." });
+            }
+
+            var validacion = _usuarioModel.ValidarContrasenha(id, c_actual);
+
+            if (!validacion)
+            {
+                return Json(new { success = false, msg = "La contraseña actual es incorrecta." });
+            }
+
+            if (c_actual == c_nueva)
+            {
+                return Json(new { success = false, msg = "La contraseña nueva no puede ser igual a la anterior." });
+            }
+
+            if (c_nueva != c_conf)
+            {
+                return Json(new { success = false, msg = "Las contraseñas no coinciden." });
+            }
+
+            var resp = _usuarioModel.ModificarContrasenha(id, c_conf);
+
+            if (resp)
+            {
+                return Json(new { success = false, msg = "Contraseña actualizada exitosamente." });
+            }
+
+            return Json(new { success = false, msg = "Error, no pudo actualizarse la contraseña." });
         }
 
         [HttpPost]

@@ -169,7 +169,7 @@
                         </div>
                         <div class="col-md-6 mt-3 mt-md-0">
                             <label for="addRol" class="form-label text-muted small ms-1">Rol en el Sistema</label>
-                            <select class="form-control form-control-custom form-select" id="rol" name="id_rol" required>
+                            <select asp-items="ViewBag.roles" class="form-control form-control-custom form-select" id="rol" name="id_rol" required>
                                <!-- -->
                             </select>
                         </div>
@@ -230,13 +230,13 @@
                     <div class="row mb-4">
                         <div class="col-md-6 mt-3 mt-md-0">
                             <label for="modifyRol" class="form-label text-muted small ms-1">Rol en el Sistema</label>
-                            <select class="form-control form-control-custom form-select" id="rol_m" name="rol" required>
+                            <select asp-items="ViewBag.roles" class="form-control form-control-custom form-select" id="rol_m" name="rol" required>
                                <!-- -->
                             </select>
                         </div>
                         <div class="col-md-6 mt-3 mt-md-0">
                             <label for="modifyRol" class="form-label text-muted small ms-1">Estado en la plataforma</label>
-                            <select class="form-control form-control-custom form-select" id="estado_m" name="estado" required>
+                            <select asp-items="ViewBag.estados" class="form-control form-control-custom form-select" id="estado_m" name="estado" required>
                              <!-- -->
                             </select>
                         </div>

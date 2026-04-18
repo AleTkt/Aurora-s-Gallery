@@ -197,6 +197,51 @@ namespace Catalogo_sis.Models
             return false;
         }
 
+        public bool ValidarContrasenha(int id, string contrasenha)
+        {
+            using var con = new SqlConnection(cadena_conexion);
+            con.Open();
+
+            string query = "SELECT contrasenha FROM usuarios WHERE contrasenha = @contrasenha";
+
+            if (id != 0)
+            {
+                query += "AND id_usuario = @id";
+            }
+
+            using var cmd = new SqlCommand(query, con);
+            cmd.Parameters.AddWithValue("@contrasenha", Data.CifrarSHA256(contrasenha));
+            if (id != 0)
+            {
+                cmd.Parameters.AddWithValue("@id", id);
+            }
+            using var data = cmd.ExecuteReader();
+
+            if (data.Read())
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public bool ModificarContrasenha(int id, string contrasenha)
+        {
+            using var con = new SqlConnection(cadena_conexion);
+            con.Open();
+
+            string query = "UPDATE usuarios SET contrasenha = @contrasenha WHERE id_usuario = @id";
+
+            using var cmd = new SqlCommand(query, con);
+            cmd.Parameters.AddWithValue("contrasenha", Data.CifrarSHA256(contrasenha));
+            var data = cmd.ExecuteNonQuery();
+
+            if (data > 0)
+            {
+                return true;
+            }
+            return false;
+        }
+
         public bool ActualizarContrasenha(string correo, string contrasenha)
         {
             using var con = new SqlConnection(cadena_conexion);

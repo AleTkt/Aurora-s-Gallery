@@ -112,6 +112,73 @@
         </div>
     </footer>
 
+    <!-- Modificar Modal-->
+<div class="modal fade" id="modificarUsuarioModal" tabindex="-1" aria-labelledby="modificarUsuarioLabel" aria-hidden="true" data-bs-theme="dark">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content card-custom border-1 border-secondary shadow-lg">
+
+            <div class="modal-header border-bottom border-secondary">
+                <h4 class="modal-title fw-bold text-peach ls-1" id="modificarUsuarioLabel">
+                    <i class="fa-solid fa-user-plus me-2"></i> Modificar Contraseña
+                </h4>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+
+            <div class="modal-body p-4">
+                <form id="frmModificarContra">
+                    @Html.AntiForgeryToken()
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="modifyUsuario" class="form-label text-muted small ms-1">Usuario (Nickname)</label>
+                            <input id="id_usuario_m" name="id_usuario" type="hidden" />
+                            <input type="text" class="form-control form-control-custom" id="usuario_m" name="usuario" placeholder="Ej. AuroraArt" required>
+                            <div class="invalid-feedback"> El usuario ya se encuentra en uso.</div>
+                        </div>
+                        <div class="col-md-6 mt-3 mt-md-0">
+                            <label for="modifyNombreCorto" class="form-label text-muted small ms-1">Nombre Corto</label>
+                            <input type="text" class="form-control form-control-custom" id="nombre_corto_m" name="nombre_corto" placeholder="Ej. Aurora R." required>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="modifyNombreCompleto" class="form-label text-muted small ms-1">Nombre Completo</label>
+                            <input type="text" class="form-control form-control-custom" id="nombre_completo_m" name="nombre_completo" placeholder="Nombre real completo" required>
+                        </div>
+                        <div class="col-md-6 mt-3 mt-md-0">
+                            <label for="modifyCorreo" class="form-label text-muted small ms-1">Correo Electrónico</label>
+                            <input type="email" class="form-control form-control-custom" id="correo_m" name="correo" placeholder="correo@ejemplo.com" required>
+                            <div class="invalid-feedback"> El correo ya se encuentra registrado en esta plataforma.</div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col-md-6 mt-3 mt-md-0">
+                            <label for="modifyRol" class="form-label text-muted small ms-1">Rol en el Sistema</label>
+                            <select asp-items="ViewBag.roles" class="form-control form-control-custom form-select" id="rol_m" name="rol" required>
+                               <!-- -->
+                            </select>
+                        </div>
+                        <div class="col-md-6 mt-3 mt-md-0">
+                            <label for="modifyRol" class="form-label text-muted small ms-1">Estado en la plataforma</label>
+                            <select asp-items="ViewBag.estados" class="form-control form-control-custom form-select" id="estado_m" name="estado" required>
+                             <!-- -->
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer border-top border-secondary">
+                        <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" form="frmModificarUsuario" class="btn btn-custom rounded-pill px-4 shadow-purple">
+                            <i class="fa-solid fa-floppy-disk me-2"></i> Guardar Cambios
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
     <script src="~/js/jquery.min.js"></script>
     <script src="~/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
