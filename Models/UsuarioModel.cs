@@ -206,7 +206,7 @@ namespace Catalogo_sis.Models
 
             if (id != 0)
             {
-                query += "AND id_usuario = @id";
+                query += " AND id_usuario = @id";
             }
 
             using var cmd = new SqlCommand(query, con);
@@ -233,6 +233,7 @@ namespace Catalogo_sis.Models
 
             using var cmd = new SqlCommand(query, con);
             cmd.Parameters.AddWithValue("contrasenha", Data.CifrarSHA256(contrasenha));
+            cmd.Parameters.AddWithValue("id", id);
             var data = cmd.ExecuteNonQuery();
 
             if (data > 0)

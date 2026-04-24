@@ -149,11 +149,9 @@
 
     $("#formAceptarSolicitud").on("submit", function (event) {
         event.preventDefault();
-
-        // Puedes agregar un loading button aquí si quieres, ya que el envío de correos toma 1 o 2 segundos.
-        var btnSubmit = $(this).find('button[type="submit"]');
+        var btnSubmit = $(this).find('button[type="submit"]'); // Variables para modificar el frontend levemente
         var textoOriginal = btnSubmit.html();
-        btnSubmit.html('<i class="fa-solid fa-spinner fa-spin me-2"></i> Procesando...').prop('disabled', true);
+        btnSubmit.html('<i class="fa-solid fa-spinner fa-spin me-2"></i> Procesando...').prop('disabled', true); // Modifica el frontend para retroalimentar al usuario
 
         $.ajax({
             url: "/Usuario/AceptarSolicitud",
@@ -162,13 +160,12 @@
             processData: false,
             contentType: false,
             success: function (resp) {
-                btnSubmit.html(textoOriginal).prop('disabled', false); // Restauramos el botón
+                btnSubmit.html(textoOriginal).prop('disabled', false); 
 
                 if (resp.success) {
                     $('#aceptarSolicitudModal').modal('hide');
                     toastr.success(resp.msg);
 
-                    // Recargamos la tabla para que la solicitud desaparezca
                     setTimeout(function () {
                         location.reload();
                     }, 2500);
@@ -266,6 +263,62 @@
                 toastr.error("Error inesperado en el servidor.");
                 console.error('Error AJAX: ', textStatus, errorThrown);
                 console.error('Respuesta: ', jqXHR, responseText)
+            }
+        });
+    });
+
+    $("#frmModificarContra").on("submit", function (event) {
+        event.preventDefault();
+
+        // Validaciones para el frontend
+        var c_actual = $("#c_actual").val();
+        var c_nueva = $("#c_nueva").val();
+        var c_conf = $("#c_conf").val();
+
+        if (c_actual === c_nueva) {
+            toastr.warning("La contraseña nueva no puede ser igual a la actual.");
+            return; 
+        }
+
+        if (c_nueva !== c_conf) {
+            toastr.warning("La confirmación no coincide con la nueva contraseña.");
+            return;
+        }
+
+        if (c_nueva.length < 8) {
+            toastr.warning("La nueva contraseña debe tener al menos 8 caracteres.");
+            return;
+        }
+
+        // Se modifica brevemente el frontend para retroalimentación al usuario
+        var btnSubmit = $(this).find('button[type="submit"]');
+        var textoOriginal = btnSubmit.html();
+        btnSubmit.html('<i class="fa-solid fa-spinner fa-spin me-2"></i> Actualizando...').prop('disabled', true);
+        $.ajax({
+            url: "/Usuario/ModificarContrasenha",
+            type: "POST",
+            data: new FormData(this),
+            processData: false,
+            contentType: false,
+            success: function (resp) {
+
+                btnSubmit.html(textoOriginal).prop('disabled', false);
+
+                if (resp.success) {
+                    $('#modificarContraModal').modal('hide');
+                    toastr.success(resp.msg);
+                    $('#frmModificarContra')[0].reset();
+
+                } else {
+                    toastr.warning(resp.msg);
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                btnSubmit.html(textoOriginal).prop('disabled', false);
+
+                toastr.error("Error inesperado en el servidor.");
+                console.error('Error AJAX: ', textStatus, errorThrown);
+                console.error('Respuesta: ', jqXHR.responseText);
             }
         });
     });

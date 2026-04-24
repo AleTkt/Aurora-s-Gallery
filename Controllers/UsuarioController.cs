@@ -164,7 +164,7 @@ namespace Catalogo_sis.Controllers
             [Required] string c_actual, 
             [Required] string c_nueva, 
             [Required] string c_conf, 
-            [Required] int id
+            [Required ]int id_usuario
             )
         {
             if (!ModelState.IsValid)
@@ -172,7 +172,7 @@ namespace Catalogo_sis.Controllers
                 return Json(new { success = false, msg = "Por favor, complete todos los campos obligatorios." });
             }
 
-            var validacion = _usuarioModel.ValidarContrasenha(id, c_actual);
+            var validacion = _usuarioModel.ValidarContrasenha(id_usuario, c_actual);
 
             if (!validacion)
             {
@@ -189,11 +189,11 @@ namespace Catalogo_sis.Controllers
                 return Json(new { success = false, msg = "Las contraseñas no coinciden." });
             }
 
-            var resp = _usuarioModel.ModificarContrasenha(id, c_conf);
+            var resp = _usuarioModel.ModificarContrasenha(id_usuario, c_conf);
 
             if (resp)
             {
-                return Json(new { success = false, msg = "Contraseña actualizada exitosamente." });
+                return Json(new { success = true, msg = "Contraseña actualizada exitosamente." });
             }
 
             return Json(new { success = false, msg = "Error, no pudo actualizarse la contraseña." });

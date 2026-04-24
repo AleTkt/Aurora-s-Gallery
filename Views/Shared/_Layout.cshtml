@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Aurora's Gallery </title>
     <link rel="stylesheet" href="~/css/bootstrap.min.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="~/fontawesome/css/all.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
@@ -13,7 +14,6 @@
 </head>
 
 <body class="d-flex flex-column min-vh-100">
-
     <header class="fixed-top d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 border-bottom"
             style="background-color: rgba(18, 18, 18, 0.95); backdrop-filter: blur(10px); z-index: 1030;">
 
@@ -21,42 +21,64 @@
             <div class="col-md-3 mb-2 mb-md-0">
                 <a href="/" class="d-inline-flex align-items-center link-body-emphasis text-decoration-none">
                     <img src="~/imagenes/Logo Aurora F.png" alt="Logo" width="80" height="80" class="me-2" asp-append-version="true">
-                    <span class="logo-text">Aurora's Gallery</span>
-                </a>
-            </div>
-
-            <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-                <li><a asp-controller="Home" asp-action="Index" class="nav-link px-3">Inicio</a></li>
-                <li><a asp-controller="Galeria" asp-action="Galeria" class="nav-link px-3">Galería</a></li>
-                <li><a asp-controller="Artistas" asp-action="Artistas" class="nav-link px-3">Artistas</a></li>
-                <li><a asp-controller="Home" asp-action="AcercaDe" class="nav-link px-3">Acerca de</a></li>
-                <li><a asp-controller="Home" asp-action="Contacto" class="nav-link px-3">Contáctanos</a></li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link px-3 dropdown-toggle" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fa-solid fa-user-shield me-1"></i> Admin
+                        <span class="logo-text">Aurora's Gallery</span>
                     </a>
+                </div>
 
-                    <ul class="dropdown-menu dropdown-menu-dark shadow" aria-labelledby="adminDropdown">
-                        <li>
-                            <a class="dropdown-item" asp-controller="Usuario" asp-action="Usuarios">
-                                <i class="fa-solid fa-users me-2 text-peach"></i> Usuarios
-                            </a>
-                            <a class="dropdown-item" asp-controller="Usuario" asp-action="Solicitudes">
-                                <i class="fa-solid fa-envelope-open-text text-peach me-2"></i> Solicitudes
-                            </a>
-                        </li>
+                <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+                    <li><a asp-controller="Home" asp-action="Index" class="nav-link px-3">Inicio</a></li>
+                    <li><a asp-controller="Galeria" asp-action="Galeria" class="nav-link px-3">Galería</a></li>
+                    <li><a asp-controller="Artistas" asp-action="Artistas" class="nav-link px-3">Artistas</a></li>
+                    <li><a asp-controller="Home" asp-action="AcercaDe" class="nav-link px-3">Acerca de</a></li>
+                    <li><a asp-controller="Home" asp-action="Contacto" class="nav-link px-3">Contáctanos</a></li>
+                
+                    <li class="nav-item dropdown">
+                        <a class="nav-link px-3 dropdown-toggle" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa-solid fa-user-shield me-1"></i> Admin
+                        </a>
 
-                    </ul>
-                </li>
+                        <ul class="dropdown-menu dropdown-menu-dark shadow" aria-labelledby="adminDropdown">
+                            <li>
+                                <a class="dropdown-item" asp-controller="Usuario" asp-action="Usuarios">
+                                    <i class="fa-solid fa-users me-2 text-peach"></i> Usuarios
+                                </a>
+                                <a class="dropdown-item" asp-controller="Usuario" asp-action="Solicitudes">
+                                    <i class="fa-solid fa-envelope-open-text text-peach me-2"></i> Solicitudes
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
 
-            </ul>
-
-            <div class="col-md-3 text-end">
-                <a asp-controller="Usuario" asp-action="Login" role="button" class="btn btn-outline-custom me-2">Iniciar Sesión</a>
-                <a asp-controller="Usuario" asp-action="Register" role="button" class="btn btn-custom">Registrarse</a>
+                <div class="col-md-3 text-end d-flex align-items-center justify-content-end gap-3">
+                
+                    <div>
+                        <a asp-controller="Usuario" asp-action="Login" role="button" class="btn btn-outline-custom me-2">Iniciar Sesión</a>
+                        <a asp-controller="Usuario" asp-action="Register" role="button" class="btn btn-custom">Registrarse</a>
+                    </div>
+                
+                    <div class="dropdown">
+                        <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="userProfileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span class="fw-bold ls-1 text-peach">Mi Perfil</span>
+                        </a>
+                        
+                        <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end shadow-lg border-1 border-secondary mt-3" aria-labelledby="userProfileDropdown">
+                            <li>
+                                <a class="dropdown-item py-2" data-bs-toggle="modal" data-bs-target="#modificarContraModal" onclick="$('#id_usuario_cm').val(1001);">
+                                    <i class="fa-solid fa-key me-2 text-peach"></i> Cambiar contraseña
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider border-secondary"></li>
+                            <li>
+                                <a class="dropdown-item py-2 text-danger hover-white">
+                                    <i class="fa-solid fa-right-from-bracket me-2"></i> Cerrar Sesión
+                                </a>
+                            </li>
+                        </ul>
+                    </div> 
+                </div>
             </div>
-        </div>
-    </header>
+        </header>
 
     <div class="container-fluid flex-grow-1 px-4">
         <main role="main" class="pb-3">
@@ -112,14 +134,14 @@
         </div>
     </footer>
 
-    <!-- Modificar Modal-->
-<div class="modal fade" id="modificarUsuarioModal" tabindex="-1" aria-labelledby="modificarUsuarioLabel" aria-hidden="true" data-bs-theme="dark">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
+<!-- Modificar Contraseña Modal-->
+<div class="modal fade" id="modificarContraModal" tabindex="-1" aria-labelledby="modificarContraLabel" aria-hidden="true" data-bs-theme="dark">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content card-custom border-1 border-secondary shadow-lg">
 
             <div class="modal-header border-bottom border-secondary">
-                <h4 class="modal-title fw-bold text-peach ls-1" id="modificarUsuarioLabel">
-                    <i class="fa-solid fa-user-plus me-2"></i> Modificar Contraseña
+                <h4 class="modal-title fw-bold text-peach ls-1" id="modificarContraLabel">
+                    <i class="fa-solid fa-key me-2"></i> Cambiar Contraseña
                 </h4>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
             </div>
@@ -128,51 +150,44 @@
                 <form id="frmModificarContra">
                     @Html.AntiForgeryToken()
 
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label for="modifyUsuario" class="form-label text-muted small ms-1">Usuario (Nickname)</label>
-                            <input id="id_usuario_m" name="id_usuario" type="hidden" />
-                            <input type="text" class="form-control form-control-custom" id="usuario_m" name="usuario" placeholder="Ej. AuroraArt" required>
-                            <div class="invalid-feedback"> El usuario ya se encuentra en uso.</div>
-                        </div>
-                        <div class="col-md-6 mt-3 mt-md-0">
-                            <label for="modifyNombreCorto" class="form-label text-muted small ms-1">Nombre Corto</label>
-                            <input type="text" class="form-control form-control-custom" id="nombre_corto_m" name="nombre_corto" placeholder="Ej. Aurora R." required>
+                    <div class="mb-4">
+                        <label for="c_actual" class="form-label text-muted small ms-1">Contraseña Actual</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-dark border-secondary text-peach">
+                                <i class="fa-solid fa-unlock"></i>
+                            </span>
+                            <input id="id_usuario_cm" name="id_usuario" type="hidden" />
+                            <input type="password" class="form-control form-control-custom border-start-0 ps-0" id="c_actual" name="c_actual" placeholder="••••••••" required>
                         </div>
                     </div>
 
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label for="modifyNombreCompleto" class="form-label text-muted small ms-1">Nombre Completo</label>
-                            <input type="text" class="form-control form-control-custom" id="nombre_completo_m" name="nombre_completo" placeholder="Nombre real completo" required>
-                        </div>
-                        <div class="col-md-6 mt-3 mt-md-0">
-                            <label for="modifyCorreo" class="form-label text-muted small ms-1">Correo Electrónico</label>
-                            <input type="email" class="form-control form-control-custom" id="correo_m" name="correo" placeholder="correo@ejemplo.com" required>
-                            <div class="invalid-feedback"> El correo ya se encuentra registrado en esta plataforma.</div>
+                    <div class="mb-3">
+                        <label for="c_nueva" class="form-label text-muted small ms-1">Nueva Contraseña</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-dark border-secondary text-peach">
+                                <i class="fa-solid fa-lock"></i>
+                            </span>
+                            <input type="password" class="form-control form-control-custom border-start-0 ps-0" id="c_nueva" name="c_nueva" placeholder="••••••••" required>
                         </div>
                     </div>
 
-                    <div class="row mb-4">
-                        <div class="col-md-6 mt-3 mt-md-0">
-                            <label for="modifyRol" class="form-label text-muted small ms-1">Rol en el Sistema</label>
-                            <select asp-items="ViewBag.roles" class="form-control form-control-custom form-select" id="rol_m" name="rol" required>
-                               <!-- -->
-                            </select>
-                        </div>
-                        <div class="col-md-6 mt-3 mt-md-0">
-                            <label for="modifyRol" class="form-label text-muted small ms-1">Estado en la plataforma</label>
-                            <select asp-items="ViewBag.estados" class="form-control form-control-custom form-select" id="estado_m" name="estado" required>
-                             <!-- -->
-                            </select>
+                    <div class="mb-4">
+                        <label for="c_conf" class="form-label text-muted small ms-1">Confirmar Nueva Contraseña</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-dark border-secondary text-peach">
+                                <i class="fa-solid fa-check-double"></i>
+                            </span>
+                            <input type="password" class="form-control form-control-custom border-start-0 ps-0" id="c_conf" name="c_conf" placeholder="••••••••" required>
                         </div>
                     </div>
-                    <div class="modal-footer border-top border-secondary">
+
+                    <div class="modal-footer border-top border-secondary px-0 pb-0 mt-2">
                         <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="submit" form="frmModificarUsuario" class="btn btn-custom rounded-pill px-4 shadow-purple">
-                            <i class="fa-solid fa-floppy-disk me-2"></i> Guardar Cambios
+                        <button type="submit" form="frmModificarContra" class="btn btn-custom rounded-pill px-4 shadow-purple">
+                            <i class="fa-solid fa-floppy-disk me-2"></i> Actualizar Contraseña
                         </button>
                     </div>
+
                 </form>
             </div>
         </div>
@@ -184,6 +199,7 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="~/js/toast-script.js"></script>
+    <script src="~/js/ajax-scripts.js" asp-append-version="true"></script>
     @if (ViewBag.msg != null)
     {
         var m = ViewBag.msg;
